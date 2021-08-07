@@ -1,4 +1,4 @@
-import React, {useState,useEffect} from 'react';
+import React, {useState,useEffect,useRef} from 'react';
 
 // we are calling options from the options on the App.js props
 // we are doing the same for the selected and the onSelectedChange
@@ -6,12 +6,24 @@ const Dropdown = ({options,selected,onSelectedChange}) =>{
 
         
     const [open, setOpen] = useState(false)
+    const ref = useRef();
     useEffect(()=>{
-        document.body.addEventListener('click',()=>{
+        const onBodyClick = (e)=>{
+            if(ref.current.contains(e.target)){
+                return;
+            }
+            console.log(e.target)
             // console.log('click)
             //this click works in the whole body of the document
             setOpen(false)
-        },{capture:true})
+        }
+        document.body.addEventListener('click',onBodyClick, {capture:true})
+
+        return () => {
+            document.body.removeEventListener("click", onBodyClick, {
+              capture: true,
+            });
+          };
     },[])
     const renderedOptions = options.map((option)=>{
         //with this if part of the code what we are doing is
@@ -30,10 +42,11 @@ const Dropdown = ({options,selected,onSelectedChange}) =>{
             </div>
         )
     })
-
-
+     
+    //directly access to top level element
+    console.log(ref.current)
     return (
-        <div className="ui form">
+        <div ref= {ref} className="ui form">
             <div className="field">
                 <label className="label">Select a Color</label>
                 {/* it's just changing whatever the value of open is */}
