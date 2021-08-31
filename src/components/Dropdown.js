@@ -2,7 +2,7 @@ import React, {useState,useEffect,useRef} from 'react';
 
 // we are calling options from the options on the App.js props
 // we are doing the same for the selected and the onSelectedChange
-const Dropdown = ({options,selected,onSelectedChange}) =>{
+const Dropdown = ({label,options,selected,onSelectedChange}) =>{
 
         
     const [open, setOpen] = useState(false)
@@ -48,7 +48,7 @@ const Dropdown = ({options,selected,onSelectedChange}) =>{
     return (
         <div ref= {ref} className="ui form">
             <div className="field">
-                <label className="label">Select a Color</label>
+                <label className="label">{label}</label>
                 {/* it's just changing whatever the value of open is */}
                 <div onClick={()=> setOpen(!open)} className={`ui selection dropdown ${open ? 'visible active':''}`}>
                     <i className="dropdown icon"></i>
